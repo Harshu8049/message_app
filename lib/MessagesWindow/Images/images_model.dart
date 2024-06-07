@@ -23,58 +23,51 @@ class _SingleImageState extends State<ImageModel> {
       builder: (controller) {
         var message = controller.messages[widget.index!];
         List<String> imagePaths = List<String>.from(message['content']!);
-        return Align(
-          alignment: Alignment.centerRight,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-              ),
-              height: imagePaths.length > 2
-                  ? 200.0
-                  : imagePaths.length == 1
-                      ? 250
-                      : 100.0,
-              width: 200,
-              child: imagePaths.length == 1
-                  ? SingleImage(
-                      index: widget.index,
-                    )
-                  : GridView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: imagePaths.length > 4 ? 4 : imagePaths.length,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2),
-                      itemBuilder: (context, index) {
-                        if (index == 3 && imagePaths.length > 4) {
-                          return Stack(
-                            fit: StackFit.expand,
-                            children: [
-                              FirstThreeImages(
+        return Column(
+          children: [
+            Align(
+              alignment: Alignment.centerRight,
+              child: Padding(
+                padding: const EdgeInsets.all(6.0),
+                child: Container(
+                  padding: const EdgeInsets.only(
+                      top: 2.5, right: 1.5, left: 2.5, bottom: 1.5),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFdcf8c6),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  height: imagePaths.length > 2
+                      ? 305.0
+                      : imagePaths.length == 1
+                          ? 350
+                          : 155.0,
+                  width: imagePaths.length == 1 ? 280 : 300,
+                  child: imagePaths.length == 1
+                      ? SingleImage(
+                          index: widget.index,
+                        )
+                      : GridView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount:
+                              imagePaths.length > 4 ? 4 : imagePaths.length,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2),
+                          itemBuilder: (context, index) {
+                            if (index == 3 && imagePaths.length > 4) {
+                              return ForthImageOfGrid(
                                 index: widget.index,
-                              ),
-                              ForthImage(index: index),
-                            ],
-                          );
-                        } else {
-                          return GestureDetector(
-                            onTap: () {
-                              FocusScope.of(context).focusedChild?.unfocus();
-                              Get.to(PageViewImage(
-                                  duringsend: false,
-                                  imagePath: imagePaths,
-                                  initalindex: index));
-                            },
-                            child: Image.file(File(imagePaths[index]),
-                                fit: BoxFit.cover),
-                          );
-                        }
-                      },
-                    ),
+                              );
+                            } else {
+                              return FirstThreeIMageOFGrid(
+                                  index: widget.index, imgindex: index);
+                            }
+                          },
+                        ),
+                ),
+              ),
             ),
-          ),
+          ],
         );
       },
     );

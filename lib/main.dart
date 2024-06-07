@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -12,7 +11,7 @@ import 'package:message_app/MessagesWindow/user_message.dart';
 
 void main() {
   runApp(const MessageScreen());
-}
+}     
 
 class MessageScreen extends StatefulWidget {
   const MessageScreen({super.key});
@@ -24,7 +23,7 @@ class MessageScreen extends StatefulWidget {
 class _MessageScreenState extends State<MessageScreen> {
   final MessageController controller = Get.put(MessageController());
 
- final  bool _switchuser = false;
+  final bool _switchuser = false;
 
   @override
   Widget build(BuildContext context) {

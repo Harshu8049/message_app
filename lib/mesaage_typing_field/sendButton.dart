@@ -10,20 +10,13 @@ class AudioOrMessageSendButton extends StatefulWidget {
 }
 
 class _AudioOrMessageSendButtonState extends State<AudioOrMessageSendButton>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   final MessageController controller = Get.put(MessageController());
 
-  late AnimationController _controller;
-  late Animation<double> _animation;
   bool _isListening = false;
 
   String? _text;
   late stt.SpeechToText _speech;
-  void _onTap() {
-    if (_controller.status == AnimationStatus.dismissed) {
-      _controller.forward().then((value) => _listen());
-    }
-  }
 
   void _send() async {
     FocusScope.of(context).unfocus();
@@ -44,6 +37,9 @@ class _AudioOrMessageSendButtonState extends State<AudioOrMessageSendButton>
       controller.update();
 
       controller.senderMesaage.clear();
+      controller.textLength.value = 0;
+
+      controller.update();
       controller.scrollController.animateTo(
         controller.scrollController.position.maxScrollExtent,
         duration: const Duration(milliseconds: 900),
@@ -85,62 +81,27 @@ class _AudioOrMessageSendButtonState extends State<AudioOrMessageSendButton>
   }
 
   @override
-  void initState() {
-    super.initState();
-
-    _speech = stt.SpeechToText();
-    _controller = AnimationController(
-      duration: const Duration(milliseconds: 200),
-      vsync: this,
-    );
-
-    _animation = Tween<double>(begin: 1.0, end: 1.5)
-        .animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
-
-    _controller.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        Future.delayed(const Duration(milliseconds: 200), () {
-          if (mounted) {
-            _controller.reverse();
-          }
-        });
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-        onTap: _onTap,
-        child: ScaleTransition(
-          scale: _animation,
-          child: Container(
-            decoration: const ShapeDecoration(
-              color: Color(0xFF128C7E),
-              shape: CircleBorder(),
-            ),
-            alignment: Alignment.center,
-            height: 50,
-            width: 50,
-            child: Obx(() {
-              return IconButton(
-                iconSize: 20,
-                onPressed: () {
-                  controller.textLength.value == 0 ? _listen() : _send();
-                },
-                icon: Icon(
-                  color: Colors.white,
-                  controller.textLength.value == 0 ? Icons.mic : Icons.send,
-                ),
-              );
-            }),
+    return Container(
+      decoration: const ShapeDecoration(
+        color: Color(0xFF128C7E),
+        shape: CircleBorder(),
+      ),
+      alignment: Alignment.center,
+      height: 50,
+      width: 50,
+      child: Obx(() {
+        return IconButton(
+          iconSize: 20,
+          onPressed: () {
+            controller.textLength.value == 0 ? _listen() : _send();
+          },
+          icon: Icon(
+            color: Colors.white,
+            controller.textLength.value == 0 ? Icons.mic : Icons.send,
           ),
-        ));
+        );
+      }),
+    );
   }
 }
