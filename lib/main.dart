@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -23,7 +24,7 @@ class MessageScreen extends StatefulWidget {
 class _MessageScreenState extends State<MessageScreen> {
   final MessageController controller = Get.put(MessageController());
 
-  bool _switchuser = false;
+ final  bool _switchuser = false;
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +38,7 @@ class _MessageScreenState extends State<MessageScreen> {
             useMaterial3: true,
           ),
           home: Scaffold(
+            backgroundColor: const Color(0xFFece5dd),
             appBar: AppBar(
               toolbarHeight: 70,
               leading: const Padding(
@@ -55,6 +57,7 @@ class _MessageScreenState extends State<MessageScreen> {
               Opacity(
                 opacity: controller.loader.value ? 0.5 : 1,
                 child: Container(
+                  padding: const EdgeInsets.all(1),
                   child: Column(
                     children: [
                       Expanded(
@@ -62,8 +65,10 @@ class _MessageScreenState extends State<MessageScreen> {
                       ),
                       Row(
                         children: [
+                          const SizedBox(
+                            width: 6,
+                          ),
                           const TextFormFieldForMessage(),
-                          const SizedBox(width: 10),
                           const SizedBox(width: 6),
                           AudioOrMessageSendButton(),
                         ],

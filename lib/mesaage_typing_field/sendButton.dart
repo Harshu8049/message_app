@@ -25,6 +25,33 @@ class _AudioOrMessageSendButtonState extends State<AudioOrMessageSendButton>
     }
   }
 
+  void _send() async {
+    FocusScope.of(context).unfocus();
+    controller.loader.value = true;
+    controller.update();
+
+    await Future.delayed(const Duration(seconds: 5));
+
+    controller.loader.value = false;
+    controller.update();
+
+    if (controller.senderMesaage.text.isNotEmpty) {
+      controller.messages.add({
+        'type': ['text'],
+        'content': [controller.senderMesaage.text],
+      });
+
+      controller.update();
+
+      controller.senderMesaage.clear();
+      controller.scrollController.animateTo(
+        controller.scrollController.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 900),
+        curve: Curves.linear,
+      );
+    }
+  }
+
   void _listen() async {
     if (!_isListening) {
       bool available = await _speech.initialize(onStatus: (val) {
@@ -43,7 +70,8 @@ class _AudioOrMessageSendButtonState extends State<AudioOrMessageSendButton>
         _speech.listen(
           onResult: (val) => setState(() {
             _text = val.recognizedWords;
-            controller.sender.text += _text!;
+            controller.senderMesaage.text += _text!;
+            controller.textLength.value = controller.senderMesaage.text.length;
           }),
           listenFor: const Duration(hours: 1),
         );
@@ -89,29 +117,30 @@ class _AudioOrMessageSendButtonState extends State<AudioOrMessageSendButton>
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: _onTap,
-      child: ScaleTransition(
-        scale: _animation,
-        child: Container(
-          decoration: const ShapeDecoration(
-            color: Color(0xFF128C7E),
-            shape: CircleBorder(),
-          ),
-          alignment: Alignment.center,
-          height: 50,
-          width: 50,
-          child: IconButton(
-            iconSize: 20,
-            onPressed: _listen,
-            icon: Icon(
-              color: Colors.white,
-              controller.sender.text.length.toInt() == 0
-                  ? Icons.mic
-                  : Icons.send,
+        onTap: _onTap,
+        child: ScaleTransition(
+          scale: _animation,
+          child: Container(
+            decoration: const ShapeDecoration(
+              color: Color(0xFF128C7E),
+              shape: CircleBorder(),
             ),
+            alignment: Alignment.center,
+            height: 50,
+            width: 50,
+            child: Obx(() {
+              return IconButton(
+                iconSize: 20,
+                onPressed: () {
+                  controller.textLength.value == 0 ? _listen() : _send();
+                },
+                icon: Icon(
+                  color: Colors.white,
+                  controller.textLength.value == 0 ? Icons.mic : Icons.send,
+                ),
+              );
+            }),
           ),
-        ),
-      ),
-    );
+        ));
   }
 }

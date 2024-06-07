@@ -6,10 +6,12 @@ import 'package:speech_to_text/speech_to_text.dart';
 
 class MessageController extends GetxController {
   var messages = <Map<String, List<String>>>[].obs;
-  TextEditingController sender = TextEditingController();
+  TextEditingController senderMesaage = TextEditingController();
   ScrollController scrollController = ScrollController();
   RxBool loader = false.obs;
   var speech = SpeechToText();
+
+  var textLength = 0.obs;
 
   void listen(bool isListen, String text) async {
     if (!isListen) {

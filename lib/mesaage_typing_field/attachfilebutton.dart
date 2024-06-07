@@ -16,6 +16,7 @@ class _AttachFileButtonState extends State<AttachFileButton> {
   Widget build(BuildContext context) {
     return GetBuilder<MessageController>(
         builder: (controller) => IconButton(
+              color: Color.fromARGB(255, 121, 121, 121),
               iconSize: 25,
               onPressed: () async {
                 pickedImages = await ImagePicker().pickMultiImage();

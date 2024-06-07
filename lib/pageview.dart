@@ -47,6 +47,7 @@ class _PageViewImageState extends State<PageViewImage> {
           Stack(
             children: [
               Container(
+                padding: const EdgeInsets.all(1),
                 height: Get.height - 200,
                 width: Get.width - 30,
               ),
@@ -86,7 +87,7 @@ class _PageViewImageState extends State<PageViewImage> {
                     return Container(
                       height: 80,
                       width: 100,
-                      padding: EdgeInsets.all(2),
+                      padding: const EdgeInsets.all(2),
                       child: Stack(
                         children: [
                           Opacity(
@@ -96,7 +97,7 @@ class _PageViewImageState extends State<PageViewImage> {
                                   setState(() {
                                     currentIndex = index;
                                   });
-                                  print('tap detected $index');
+                            
                                 },
                                 child: Image.file(
                                   height: index == currentIndex ? 100 : 80,
@@ -108,7 +109,7 @@ class _PageViewImageState extends State<PageViewImage> {
                             Center(
                                 child: widget.duringsend
                                     ? IconButton(
-                                        icon: Icon(Icons.delete,
+                                        icon: const Icon(Icons.delete,
                                             color: Colors.black),
                                         onPressed: () => _deleteImage(index))
                                     : null),

@@ -14,6 +14,7 @@ class SingleImage extends StatefulWidget {
 }
 
 class _SingleImageState extends State<SingleImage> {
+  @override
   Widget build(BuildContext context) {
     return GetBuilder<MessageController>(
       builder: (controller) {

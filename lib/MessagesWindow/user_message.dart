@@ -22,9 +22,6 @@ class _UserMessage extends State<UserMessage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
-        color: Color(0xFFece5dd),
-      ),
       padding: EdgeInsets.only(bottom: context.mediaQueryViewInsets.bottom),
       height: Get.height,
       width: Get.width,

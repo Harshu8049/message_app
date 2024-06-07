@@ -13,30 +13,38 @@ class TextFormFieldForMessage extends StatelessWidget {
     return GetBuilder<MessageController>(
         builder: (controller) => Container(
               decoration: BoxDecoration(
+                color: Colors.white,
                 borderRadius: BorderRadius.circular(24),
                 shape: BoxShape.rectangle,
-                border: Border.all(color: Colors.black),
+                border: Border.all(color: Colors.white),
               ),
               padding: const EdgeInsets.all(1),
               height: 50,
               width: MediaQuery.of(context).size.width - 70,
               child: TextFormField(
-                controller: controller.sender,
+                controller: controller.senderMesaage,
+                onChanged: (value) {
+                  controller.textLength.value = value.length;
+                },
                 decoration: InputDecoration(
                   prefixIcon: EmojiButton(),
                   hintText: 'Message',
-                  suffixIcon: Container(
-                    padding: const EdgeInsets.all(1),
-                    width: 100,
-                    child: Row(
-                      children: [AttachFileButton(), CameraButton()],
-                    ),
+                  suffixIcon: Obx(
+                    () => controller.textLength.value == 0
+                        ? Container(
+                            padding: const EdgeInsets.all(1),
+                            width: 100,
+                            child: Row(
+                              children: [AttachFileButton(), CameraButton()],
+                            ),
+                          )
+                        : AttachFileButton(),
                   ),
                   enabledBorder: const UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white),
+                    borderSide: BorderSide(color: Colors.transparent),
                   ),
                   focusedBorder: const UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white),
+                    borderSide: BorderSide(color: Colors.transparent),
                   ),
                 ),
               ),
