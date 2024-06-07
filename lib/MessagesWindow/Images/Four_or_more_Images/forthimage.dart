@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:message_app/controller/controller.dart';
@@ -12,13 +14,13 @@ class ForthImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<MessageController>(
       builder: (controller) {
-        var message = controller.messages[index];
+        var message = controller.messages[index - 3];
         List<String> imagePaths = List<String>.from(message['content']!);
         return GestureDetector(
           onTap: () {
             FocusScope.of(context).focusedChild?.unfocus();
             Get.to(PageViewImage(
-                duringsend: false, imagePath: imagePaths, initalindex: 3));
+                duringsend: false, imagePath: imagePaths, initalindex: index));
           },
           child: Center(
             child: Text(
