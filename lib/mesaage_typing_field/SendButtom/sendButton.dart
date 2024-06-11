@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:message_app/controller/controller.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
@@ -10,10 +11,26 @@ class AudioOrMessageSendButton extends StatefulWidget {
 }
 
 class _AudioOrMessageSendButtonState extends State<AudioOrMessageSendButton>
-    with TickerProviderStateMixin {
+    with SingleTickerProviderStateMixin {
   final MessageController controller = Get.put(MessageController());
 
   bool _isListening = false;
+  double scale = 1;
+
+  late AnimationController _animationController;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+        duration: Duration(milliseconds: 50),
+        vsync: this,
+        lowerBound: 0.0,
+        upperBound: 0.1)
+      ..addListener(() {
+        setState(() {});
+      });
+  }
 
   String? _text;
   late stt.SpeechToText _speech;
@@ -82,26 +99,64 @@ class _AudioOrMessageSendButtonState extends State<AudioOrMessageSendButton>
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const ShapeDecoration(
-        color: Color(0xFF128C7E),
-        shape: CircleBorder(),
-      ),
-      alignment: Alignment.center,
-      height: 50,
-      width: 50,
-      child: Obx(() {
-        return IconButton(
-          iconSize: 20,
-          onPressed: () {
-            controller.textLength.value == 0 ? _listen() : _send();
-          },
-          icon: Icon(
-            color: Colors.white,
-            controller.textLength.value == 0 ? Icons.mic : Icons.send,
+    return GestureDetector(
+      onLongPress: () {
+        controller.buttonLongPress.value = true;
+        setState(() {
+          scale = 2;
+        });
+      },
+      onLongPressUp: () async {
+        controller.buttonLongPressup.value = true;
+
+        controller.textLength.value = 1;
+        controller.update();
+
+        await Future.delayed(const Duration(seconds: 3));
+        controller.buttonLongPressup.value = false;
+
+        controller.textLength.value = 0;
+        controller.update();
+      },
+      onLongPressMoveUpdate: (details) {},
+      onTapUp: (details) {
+        setState(() {
+          scale = 2;
+        });
+      },
+      onLongPressEnd: (details) {
+        controller.buttonLongPressup.value = false;
+        controller.update();
+
+        controller.buttonLongPress.value = false;
+        setState(() {
+          scale = 1;
+        });
+      },
+      child: Transform.scale(
+        scale: scale,
+        child: Container(
+          decoration: const ShapeDecoration(
+            color: Color(0xFF128C7E),
+            shape: CircleBorder(),
           ),
-        );
-      }),
+          alignment: Alignment.center,
+          height: 50,
+          width: 50,
+          child: Obx(() {
+            return IconButton(
+              iconSize: 20,
+              onPressed: () {
+                controller.textLength.value == 0 ? _listen() : _send();
+              },
+              icon: Icon(
+                color: Colors.white,
+                controller.textLength.value == 0 ? Icons.mic : Icons.send,
+              ),
+            );
+          }),
+        ),
+      ),
     );
   }
 }

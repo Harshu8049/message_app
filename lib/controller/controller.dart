@@ -10,6 +10,8 @@ class MessageController extends GetxController {
   ScrollController scrollController = ScrollController();
   RxBool loader = false.obs;
   var speech = SpeechToText();
+  RxBool buttonLongPress = false.obs;
+   RxBool buttonLongPressup = false.obs;
 
   var textLength = 0.obs;
 

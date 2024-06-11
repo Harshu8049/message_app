@@ -1,17 +1,18 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
-
-import 'package:message_app/mesaage_typing_field/sendButton.dart';
+import 'package:message_app/mesaage_typing_field/SendButtom/sendButton.dart';
 import 'package:message_app/controller/controller.dart';
-
+import 'package:message_app/mesaage_typing_field/cameraButton.dart';
 import 'package:message_app/showdialog.dart';
 import 'package:message_app/mesaage_typing_field/textformfield.dart';
 import 'package:message_app/MessagesWindow/user_message.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+cameras = await availableCameras();
   runApp(const MessageScreen());
-}     
+}
 
 class MessageScreen extends StatefulWidget {
   const MessageScreen({super.key});
