@@ -16,7 +16,7 @@ class _AudioOrMessageSendButtonState extends State<AudioOrMessageSendButton>
 
   bool _isListening = false;
   double scale = 1;
-  Offset _pointer = const Offset(360, 10);
+  Offset _pointer = const Offset(320, 10);
 
   @override
   void initState() {
@@ -67,9 +67,8 @@ class _AudioOrMessageSendButtonState extends State<AudioOrMessageSendButton>
     controller.buttonLongPress.value = false;
     controller.update();
     setState(() {
-      scale = 1; 
-      _pointer =
-          const Offset(360, 10); 
+      scale = 1;
+      _pointer = const Offset(320, 10);
     });
   }
 
@@ -118,7 +117,7 @@ class _AudioOrMessageSendButtonState extends State<AudioOrMessageSendButton>
               controller.update();
               controller.buttonLongPress.value = true;
               setState(() {
-                scale = 1.5; 
+                scale = 1.5;
               });
             },
             onTapUp: (details) {
@@ -126,18 +125,18 @@ class _AudioOrMessageSendButtonState extends State<AudioOrMessageSendButton>
               controller.update();
               controller.buttonLongPress.value = true;
               setState(() {
-                scale = 1; 
+                scale = 1;
               });
             },
             onTapCancel: () {
               controller.buttonLongPress.value = false;
               setState(() {
-                scale = 1; 
+                scale = 1;
               });
             },
             onVerticalDragStart: (details) {
               setState(() {
-                scale = 2; 
+                scale = 2;
               });
               controller.buttonLongPress.value = true;
             },
@@ -177,7 +176,7 @@ class _AudioOrMessageSendButtonState extends State<AudioOrMessageSendButton>
             onHorizontalDragUpdate: (details) {
               controller.buttonLongPressup.value = false;
               controller.update();
-              if (_pointer.dx >= 180 && _pointer.dx <= 360) {
+              if (_pointer.dx >= 180 && _pointer.dx <= 320) {
                 _updatePointer(_pointer + Offset(details.delta.dx, 0));
 
                 setState(() {
