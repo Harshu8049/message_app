@@ -48,6 +48,7 @@ dependencies:
   gap: ^3.0.1
   external_path: ^1.0.3
   media_scanner: ^2.1.0
+  lottie: ^3.1.2
 
 
 dev_dependencies:

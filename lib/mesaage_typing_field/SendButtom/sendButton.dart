@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
@@ -18,18 +19,26 @@ class _AudioOrMessageSendButtonState extends State<AudioOrMessageSendButton>
   double scale = 1;
 
   late AnimationController _animationController;
+  Offset _pointer = Offset(360, 10);
 
   @override
   void initState() {
     super.initState();
     _animationController = AnimationController(
-        duration: Duration(milliseconds: 50),
-        vsync: this,
-        lowerBound: 0.0,
-        upperBound: 0.1)
-      ..addListener(() {
+      duration: Duration(milliseconds: 50),
+      vsync: this,
+      lowerBound: 0.0,
+      upperBound: 0.1,
+    )..addListener(() {
         setState(() {});
       });
+    _speech = stt.SpeechToText();
+  }
+
+  void _updatePointer(Offset offset) {
+    setState(() {
+      _pointer = offset;
+    });
   }
 
   String? _text;
@@ -63,6 +72,15 @@ class _AudioOrMessageSendButtonState extends State<AudioOrMessageSendButton>
         curve: Curves.linear,
       );
     }
+  }
+
+  void _resetPosition() {
+    controller.buttonLongPress.value = false;
+    controller.update();
+    setState(() {
+      scale = 1; // Reset the scale when drag ends
+      _pointer = Offset(360, 10); // Reset the pointer to the original position
+    });
   }
 
   void _listen() async {
@@ -99,64 +117,126 @@ class _AudioOrMessageSendButtonState extends State<AudioOrMessageSendButton>
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onLongPress: () {
-        controller.buttonLongPress.value = true;
-        setState(() {
-          scale = 2;
-        });
-      },
-      onLongPressUp: () async {
-        controller.buttonLongPressup.value = true;
+    return GetBuilder<MessageController>(
+      builder: (controller) {
+        return Positioned(
+          left: _pointer.dx,
+          bottom: _pointer.dy,
+          child: GestureDetector(
+            onTapDown: (details) {
+              controller.onTimerStart();
+              controller.update();
+              controller.buttonLongPress.value = true;
+              setState(() {
+                scale = 1.5; // Increase the scale on tap down
+              });
+            },
+            onTapUp: (details) {
+              controller.onTimerStart();
+              controller.update();
+              controller.buttonLongPress.value = true;
+              setState(() {
+                scale = 1; // Reset the scale on tap up
+              });
+            },
+            onTapCancel: () {
+              controller.buttonLongPress.value = false;
+              setState(() {
+                scale = 1; // Reset the scale on tap up
+              });
+            },
+            onVerticalDragStart: (details) {
+              setState(() {
+                scale = 2; // Increase the scale on drag start
+              });
+              controller.buttonLongPress.value = true;
+            },
+            onVerticalDragUpdate: (details) {
+              if (_pointer.dy <= 100 && _pointer.dy >= 10) {
+                _updatePointer(_pointer - Offset(0, details.delta.dy));
 
-        controller.textLength.value = 1;
-        controller.update();
+                setState(() {
+                  scale = 1 - (_pointer.dy / 500);
+                  controller.sendiconhorizentalheight.value =
+                      150 - (_pointer.dy);
+                  controller.positioned.value = 60 + (_pointer.dy + 20);
+                });
 
-        await Future.delayed(const Duration(seconds: 3));
-        controller.buttonLongPressup.value = false;
+                if (_pointer.dy >= 90) {
+                  controller.buttonLongPressup.value = true;
+                  controller.update();
+                }
 
-        controller.textLength.value = 0;
-        controller.update();
-      },
-      onLongPressMoveUpdate: (details) {},
-      onTapUp: (details) {
-        setState(() {
-          scale = 2;
-        });
-      },
-      onLongPressEnd: (details) {
-        controller.buttonLongPressup.value = false;
-        controller.update();
+                controller.update();
+              }
+            },
+            onVerticalDragEnd: (details) {
+              _resetPosition();
+              controller.sendiconhorizentalheight.value = 150;
+              controller.positioned.value = 60;
 
-        controller.buttonLongPress.value = false;
-        setState(() {
-          scale = 1;
-        });
-      },
-      child: Transform.scale(
-        scale: scale,
-        child: Container(
-          decoration: const ShapeDecoration(
-            color: Color(0xFF128C7E),
-            shape: CircleBorder(),
-          ),
-          alignment: Alignment.center,
-          height: 50,
-          width: 50,
-          child: Obx(() {
-            return IconButton(
-              iconSize: 20,
-              onPressed: () {
-                controller.textLength.value == 0 ? _listen() : _send();
-              },
-              icon: Icon(
-                color: Colors.white,
-                controller.textLength.value == 0 ? Icons.mic : Icons.send,
+              controller.update();
+            },
+            onHorizontalDragStart: (details) {
+              setState(() {
+                scale = 2; // Increase the scale on drag start
+              });
+              controller.buttonLongPress.value = true;
+              controller.update();
+            },
+            onHorizontalDragUpdate: (details) {
+              controller.buttonLongPressup.value = false;
+              controller.update();
+              if (_pointer.dx >= 180 && _pointer.dx <= 360) {
+                _updatePointer(_pointer + Offset(details.delta.dx, 0));
+
+                setState(() {
+                  controller.widthVertical.value =
+                      70 - (details.localPosition.dx + 50);
+                  controller.update();
+                });
+                if (controller.widthVertical.value >= 100) {
+                  controller.ontimerStop();
+                }
+                if (_pointer.dx == 180) {
+                  _resetPosition();
+                }
+              }
+            },
+            onHorizontalDragEnd: (details) async {
+              await Future.delayed(const Duration(seconds: 1));
+              _resetPosition();
+              setState(() {
+                controller.widthVertical.value = 70;
+              });
+            },
+            child: Transform.scale(
+              scale: scale,
+              child: Container(
+                decoration: const ShapeDecoration(
+                  color: Color(0xFF128C7E),
+                  shape: CircleBorder(),
+                ),
+                alignment: Alignment.center,
+                height: 50,
+                width: 50,
+                child: Obx(() {
+                  return IconButton(
+                    iconSize: 20,
+                    onPressed: () {
+                      controller.textLength.value == 0 ? _listen() : _send();
+                    },
+                    icon: Icon(
+                      color: Colors.white,
+                      controller.textLength.value == 0 ? Icons.mic : Icons.send,
+                    ),
+                  );
+                }),
               ),
-            );
-          }),
-        ),
-      ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

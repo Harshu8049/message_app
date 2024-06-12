@@ -1,10 +1,17 @@
+import 'dart:async';
+
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:message_app/controller/controller.dart';
 
-class onLongPressUpFormfield extends StatelessWidget {
+class onLongPressUpFormfield extends StatefulWidget {
+  @override
+  State<onLongPressUpFormfield> createState() => _onLongPressUpFormfieldState();
+}
+
+class _onLongPressUpFormfieldState extends State<onLongPressUpFormfield> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<MessageController>(
@@ -14,12 +21,16 @@ class onLongPressUpFormfield extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
                     children: [
-                      const Text('0:05',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black87,
-                          )),
+                      Obx(
+                        () => Text(
+                            controller
+                                .formatedTime(controller.millisecond.value),
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black87,
+                            )),
+                      ),
                       Padding(
                         padding: const EdgeInsets.only(left: 15.0),
                         child: AnimatedTextKit(
@@ -47,6 +58,7 @@ class onLongPressUpFormfield extends StatelessWidget {
                         onPressed: () {
                           controller.buttonLongPressup.value = false;
                           controller.update();
+                          controller.ontimerStop();
                         },
                         icon: const Icon(Icons.delete_outlined)),
                     const Padding(

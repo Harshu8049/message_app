@@ -10,7 +10,7 @@ import 'package:message_app/MessagesWindow/user_message.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-cameras = await availableCameras();
+  cameras = await availableCameras();
   runApp(const MessageScreen());
 }
 
@@ -55,29 +55,15 @@ class _MessageScreenState extends State<MessageScreen> {
             ),
             body: Stack(children: [
               Opacity(
-                opacity: controller.loader.value ? 0.5 : 1,
-                child: Container(
-                  padding: const EdgeInsets.all(1),
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: UserMessage(switchUser: _switchuser),
-                      ),
-                      Row(
-                        children: [
-                          const SizedBox(
-                            width: 6,
-                          ),
-                          const TextFormFieldForMessage(),
-                          const SizedBox(width: 6),
-                          AudioOrMessageSendButton(),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
-                    ],
-                  ),
-                ),
-              ),
+                  opacity: controller.loader.value ? 0.5 : 1,
+                  child: Stack(children: [
+                    UserMessage(switchUser: _switchuser),
+                    const Positioned(
+                        bottom: 10,
+                        left: 2,
+                        child: TextFormFieldForMessage()),
+                    AudioOrMessageSendButton(),
+                  ])),
               if (controller.loader.value)
                 const Opacity(opacity: 1, child: AppLoader()),
             ]),

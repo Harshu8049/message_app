@@ -22,7 +22,8 @@ class TextFormFieldForMessage extends StatelessWidget {
           ),
           padding: const EdgeInsets.all(1),
           height: controller.buttonLongPressup.value ? 100 : 50,
-          width: MediaQuery.of(context).size.width - 70,
+          width: MediaQuery.of(context).size.width -
+              controller.widthVertical.value,
           child: Obx(
             () => controller.buttonLongPress.value
                 ? const OnLongPressButtonTextFormField()

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:message_app/controller/controller.dart';
+import 'package:message_app/pageview.dart';
 
 List<CameraDescription>? cameras;
 
@@ -16,7 +17,7 @@ class CameraButton extends StatefulWidget {
 class _EmojiButtonState extends State<CameraButton> {
   late CameraController? cameraController;
   late Future<void> cameraVAlue;
-  String imagepath = '';
+  String? imagepath;
 
   void StartCamera(int camera) async {
     cameraController = CameraController(cameras![camera], ResolutionPreset.high,
@@ -44,10 +45,19 @@ class _EmojiButtonState extends State<CameraButton> {
     try {
       await cameraController!.setFlashMode(FlashMode.off);
       XFile picture = await cameraController!.takePicture();
-      imagepath = picture.path;
+      setState(() {
+        imagepath = picture.path;
+        print(imagepath);
+      });
+
+      List<String> path = [];
+      path[0] = imagepath!;
+      cameraController!.dispose();
+      Get.to(() =>
+          PageViewImage(duringsend: true, imagePath: path, initalindex: 0));
       print(imagepath);
     } on CameraException catch (e) {
-      print(e);
+      print("Issue is camer is $e");
       return null;
     }
   }
@@ -83,19 +93,16 @@ class _EmojiButtonState extends State<CameraButton> {
                               ? Stack(children: [
                                   CameraPreview(cameraController!),
                                   Positioned(
-                                      bottom: 20,
-                                      right: 180,
-                                      child: IconButton(
-                                          iconSize: 40,
-                                          onPressed: () {
-                                            takePicture();
-                                          },
-                                          icon: const Icon(Icons.camera_alt))),
-                                  if (imagepath != '')
-                                    Positioned(
-                                        bottom: 0,
-                                        left: 0,
-                                        child: Image.file(File(imagepath)))
+                                    bottom: 20,
+                                    right: 180,
+                                    child: IconButton(
+                                      iconSize: 40,
+                                      onPressed: () {
+                                        takePicture();
+                                      },
+                                      icon: const Icon(Icons.camera_alt),
+                                    ),
+                                  ),
                                 ])
                               : const Center(
                                   child: CircularProgressIndicator()),

@@ -30,9 +30,8 @@ class ForthImageOfGrid extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(10),
                 child: Image.file(
-                  width: 200,
                   File(imagePaths[index!]),
-                  fit: BoxFit.cover,
+                  fit: BoxFit.fill,
                   color: Colors.black.withOpacity(0.5),
                   colorBlendMode: BlendMode.darken,
                 ),
