@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:message_app/controller/controller.dart';
-import 'package:message_app/mesaage_typing_field/SendButtom/onlongPressUpformField.dart';
+import 'package:message_app/mesaage_typing_field/SendButtom/onlongpressupform_field.dart';
 import 'package:message_app/mesaage_typing_field/SendButtom/onlongpresstextformfield.dart';
 import 'package:message_app/mesaage_typing_field/attachfilebutton.dart';
-import 'package:message_app/mesaage_typing_field/cameraButton.dart';
+import 'package:message_app/mesaage_typing_field/camera_button.dart';
 import 'package:message_app/mesaage_typing_field/emojibutton.dart';
 
 class TextFormFieldForMessage extends StatelessWidget {
@@ -28,28 +28,28 @@ class TextFormFieldForMessage extends StatelessWidget {
             () => controller.buttonLongPress.value
                 ? const OnLongPressButtonTextFormField()
                 : controller.buttonLongPressup.value
-                    ? onLongPressUpFormfield()
+                    ? const OnLongPressUpFormfield()
                     : TextFormField(
                         controller: controller.senderMesaage,
                         onChanged: (value) {
                           controller.textLength.value = value.length;
                         },
                         decoration: InputDecoration(
-                          prefixIcon: EmojiButton(),
+                          prefixIcon: const EmojiButton(),
                           hintText: 'Message',
                           suffixIcon: Obx(
                             () => controller.textLength.value == 0
                                 ? Container(
                                     padding: const EdgeInsets.all(1),
                                     width: 100,
-                                    child: Row(
+                                    child: const Row(
                                       children: [
                                         AttachFileButton(),
                                         CameraButton()
                                       ],
                                     ),
                                   )
-                                : AttachFileButton(),
+                                : const AttachFileButton(),
                           ),
                           enabledBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.transparent),

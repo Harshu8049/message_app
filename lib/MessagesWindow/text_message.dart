@@ -1,6 +1,8 @@
-import 'package:flutter/cupertino.dart';
+
+// ignore_for_file: unnecessary_string_interpolations
+
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
 
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -33,7 +35,7 @@ class TextMessage extends StatelessWidget {
                     child: Stack(
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(right: 60),
+                          padding: const EdgeInsets.only(right: 60),
                           child: Text(
                             text[0],
                             softWrap: true,
@@ -48,7 +50,7 @@ class TextMessage extends StatelessWidget {
                               Text(
                                   style: const TextStyle(color: Colors.grey),
                                   '${DateFormat.Hm().format(DateTime.now())}'),
-                              SizedBox(
+                              const SizedBox(
                                 width: 5,
                               ),
                               const Icon(

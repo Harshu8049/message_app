@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, unnecessary_string_interpolations
 
 import 'dart:io';
 
@@ -42,6 +42,7 @@ class FirstThreeIMageOFGrid extends StatelessWidget {
               bottom: 0,
               left: 90,
               child: Container(
+                padding: const EdgeInsets.all(1),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [

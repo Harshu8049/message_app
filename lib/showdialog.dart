@@ -18,10 +18,10 @@ class _DragCircleState extends State<AppLoader>
   final List<Offset> _trailYellow = [];
   final List<Offset> _trailRed = [];
 
-  final Color _blackColor = Color(0xFF075e54);
-  final Color _greenColor = Color(0xFF3EB771);
-  final Color _yellowColor = Color(0xFF075e54);
-  final Color _redColor = Color(0xFF3EB771);
+  final Color _blackColor = const Color(0xFF075e54);
+  final Color _greenColor = const Color(0xFF3EB771);
+  final Color _yellowColor = const Color(0xFF075e54);
+  final Color _redColor = const Color(0xFF3EB771);
   final double sideLength = 50.0;
   double trailWidth = 3;
   late Offset _pointer;
@@ -191,6 +191,7 @@ class _DragCircleState extends State<AppLoader>
                         Padding(
                           padding: const EdgeInsets.only(top: 5, left: 5),
                           child: Container(
+                            padding: const EdgeInsets.all(0),
                             height: 40,
                             width: 40,
                             child: Image.asset('assests/download.jpg'),

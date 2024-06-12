@@ -1,17 +1,15 @@
-import 'dart:async';
-
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:get/get.dart';
 import 'package:message_app/controller/controller.dart';
 
-class onLongPressUpFormfield extends StatefulWidget {
+class OnLongPressUpFormfield extends StatefulWidget {
+  const OnLongPressUpFormfield({super.key});
   @override
-  State<onLongPressUpFormfield> createState() => _onLongPressUpFormfieldState();
+  State<OnLongPressUpFormfield> createState() => _OnLongPressUpFormfieldState();
 }
 
-class _onLongPressUpFormfieldState extends State<onLongPressUpFormfield> {
+class _OnLongPressUpFormfieldState extends State<OnLongPressUpFormfield> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<MessageController>(
@@ -25,7 +23,7 @@ class _onLongPressUpFormfieldState extends State<onLongPressUpFormfield> {
                         () => Text(
                             controller
                                 .formatedTime(controller.millisecond.value),
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                               color: Colors.black87,
@@ -38,9 +36,9 @@ class _onLongPressUpFormfieldState extends State<onLongPressUpFormfield> {
                           repeatForever: true,
                           animatedTexts: [
                             TyperAnimatedText(
-                              speed: Duration(milliseconds: 50),
+                              speed: const Duration(milliseconds: 50),
                               '၊၊||၊|။||||။၊|။|၊၊||၊|။||||။၊|။|၊၊||၊|။||||။၊|။',
-                              textStyle: TextStyle(
+                              textStyle: const TextStyle(
                                   color: Color.fromARGB(255, 152, 152, 152)),
                             )
                           ],

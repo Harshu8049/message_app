@@ -1,7 +1,9 @@
+// ignore_for_file: unnecessary_string_interpolations
+
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:message_app/controller/controller.dart';
@@ -11,6 +13,7 @@ class ForthImageOfGrid extends StatelessWidget {
   const ForthImageOfGrid({super.key, required this.index});
 
   final int? index;
+  @override
   Widget build(BuildContext context) {
     return GetBuilder<MessageController>(
       builder: (controller) {
@@ -61,6 +64,7 @@ class ForthImageOfGrid extends StatelessWidget {
             bottom: 0,
             left: 90,
             child: Container(
+              padding: const EdgeInsets.all(1) ,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [

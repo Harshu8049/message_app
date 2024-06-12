@@ -1,8 +1,8 @@
-import 'dart:io';
+// ignore_for_file: avoid_print
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
 import 'package:get/get.dart';
 import 'package:message_app/controller/controller.dart';
 import 'package:message_app/pageview.dart';
@@ -10,6 +10,7 @@ import 'package:message_app/pageview.dart';
 List<CameraDescription>? cameras;
 
 class CameraButton extends StatefulWidget {
+  const CameraButton({super.key});
   @override
   State<CameraButton> createState() => _EmojiButtonState();
 }
@@ -19,7 +20,7 @@ class _EmojiButtonState extends State<CameraButton> {
   late Future<void> cameraVAlue;
   String? imagepath;
 
-  void StartCamera(int camera) async {
+  void startCamera(int camera) async {
     cameraController = CameraController(cameras![camera], ResolutionPreset.high,
         enableAudio: false);
 
@@ -31,7 +32,7 @@ class _EmojiButtonState extends State<CameraButton> {
         setState(() {});
       });
     } on CameraException catch (e) {
-      print('camera error $e');
+      print(e);
     }
   }
 
@@ -64,7 +65,7 @@ class _EmojiButtonState extends State<CameraButton> {
 
   @override
   void initState() {
-    StartCamera(0);
+    startCamera(0);
     super.initState();
   }
 
@@ -74,11 +75,11 @@ class _EmojiButtonState extends State<CameraButton> {
     super.dispose();
   }
 
+  @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return GetBuilder<MessageController>(
         builder: (controller) => IconButton(
-              color: Color.fromARGB(255, 121, 121, 121),
+              color: const Color.fromARGB(255, 121, 121, 121),
               iconSize: 20,
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(

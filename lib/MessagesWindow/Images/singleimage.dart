@@ -44,13 +44,14 @@ class _SingleImageState extends State<SingleImage> {
               bottom: 0,
               left: 220,
               child: Container(
+                padding: const EdgeInsets.all(0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text(
                         style: const TextStyle(
                             color: Color.fromARGB(255, 255, 255, 255)),
-                        '${DateFormat.Hm().format(DateTime.now())}'),
+                        DateFormat.Hm().format(DateTime.now())),
                     const Icon(
                       size: 15,
                       Icons.done_all,

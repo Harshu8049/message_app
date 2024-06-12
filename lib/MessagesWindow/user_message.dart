@@ -1,6 +1,6 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
 import 'package:get/get.dart';
 import 'package:message_app/MessagesWindow/Images/images_model.dart';
 import 'package:message_app/MessagesWindow/text_message.dart';
@@ -94,7 +94,7 @@ class _UserMessage extends State<UserMessage> {
                             repeatForever: true,
                             animatedTexts: [
                               WavyAnimatedText(
-                                speed: Duration(seconds: 1),
+                                speed: const  Duration(seconds: 1),
                                 'ᐱ',
                                 textStyle: const TextStyle(
                                     color: Color.fromARGB(255, 115, 114, 114)),
@@ -105,7 +105,7 @@ class _UserMessage extends State<UserMessage> {
                   ]),
                 ),
               )
-            : Text('')),
+            : const Text('')),
       ]);
     });
   }

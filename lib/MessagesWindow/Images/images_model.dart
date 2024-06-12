@@ -1,4 +1,4 @@
-import 'dart:io';
+
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -6,7 +6,6 @@ import 'package:message_app/MessagesWindow/Images/Four_or_more_Images/first_thre
 import 'package:message_app/MessagesWindow/Images/Four_or_more_Images/forthimage.dart';
 import 'package:message_app/MessagesWindow/Images/singleimage.dart';
 import 'package:message_app/controller/controller.dart';
-import 'package:message_app/pageview.dart';
 
 class ImageModel extends StatefulWidget {
   const ImageModel({super.key, required this.index});
@@ -18,6 +17,7 @@ class ImageModel extends StatefulWidget {
 }
 
 class _SingleImageState extends State<ImageModel> {
+  @override
   Widget build(BuildContext context) {
     return GetBuilder<MessageController>(
       builder: (controller) {

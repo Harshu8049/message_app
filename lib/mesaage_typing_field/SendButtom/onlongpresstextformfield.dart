@@ -34,16 +34,14 @@ class _OnLongPressButtonTextFormFieldState
           const SizedBox(width: 10),
           if (controller.widthVertical.value <= 100)
             Obx(() {
-              return
-              Text(controller.formatedTime(controller.millisecond.value),
+              return Text(controller.formatedTime(controller.millisecond.value),
                   style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                     color: Colors.black87,
                   ));
-                  
             }),
-          SizedBox(
+          const SizedBox(
             width: 30,
           ),
           AnimatedTextKit(

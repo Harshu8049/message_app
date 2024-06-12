@@ -1,11 +1,10 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:message_app/controller/controller.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 
 class AudioOrMessageSendButton extends StatefulWidget {
+  const AudioOrMessageSendButton({super.key});
   @override
   State<AudioOrMessageSendButton> createState() =>
       _AudioOrMessageSendButtonState();
@@ -17,21 +16,11 @@ class _AudioOrMessageSendButtonState extends State<AudioOrMessageSendButton>
 
   bool _isListening = false;
   double scale = 1;
-
-  late AnimationController _animationController;
-  Offset _pointer = Offset(360, 10);
+  Offset _pointer = const Offset(360, 10);
 
   @override
   void initState() {
     super.initState();
-    _animationController = AnimationController(
-      duration: Duration(milliseconds: 50),
-      vsync: this,
-      lowerBound: 0.0,
-      upperBound: 0.1,
-    )..addListener(() {
-        setState(() {});
-      });
     _speech = stt.SpeechToText();
   }
 
@@ -79,7 +68,7 @@ class _AudioOrMessageSendButtonState extends State<AudioOrMessageSendButton>
     controller.update();
     setState(() {
       scale = 1; // Reset the scale when drag ends
-      _pointer = Offset(360, 10); // Reset the pointer to the original position
+      _pointer = const Offset(360, 10); // Reset the pointer to the original position
     });
   }
 

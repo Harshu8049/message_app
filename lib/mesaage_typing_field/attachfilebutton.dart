@@ -5,6 +5,7 @@ import 'package:message_app/controller/controller.dart';
 import 'package:message_app/pageview.dart';
 
 class AttachFileButton extends StatefulWidget {
+  const AttachFileButton({super.key});
   @override
   State<AttachFileButton> createState() => _AttachFileButtonState();
 }
@@ -13,10 +14,11 @@ List<XFile> pickedImages = [];
 
 class _AttachFileButtonState extends State<AttachFileButton> {
   final MessageController controllers = Get.put(MessageController());
+  @override
   Widget build(BuildContext context) {
     return GetBuilder<MessageController>(
         builder: (controller) => IconButton(
-              color: Color.fromARGB(255, 121, 121, 121),
+              color: const Color.fromARGB(255, 121, 121, 121),
               iconSize: 25,
               onPressed: () async {
                 pickedImages = await ImagePicker().pickMultiImage();
