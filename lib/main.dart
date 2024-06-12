@@ -12,6 +12,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   cameras = await availableCameras();
   runApp(const MessageScreen());
+
 }
 
 class MessageScreen extends StatefulWidget {
@@ -59,9 +60,7 @@ class _MessageScreenState extends State<MessageScreen> {
                   child: Stack(children: [
                     UserMessage(switchUser: _switchuser),
                     const Positioned(
-                        bottom: 10,
-                        left: 2,
-                        child: TextFormFieldForMessage()),
+                        bottom: 10, left: 2, child: TextFormFieldForMessage()),
                     const AudioOrMessageSendButton(),
                   ])),
               if (controller.loader.value)

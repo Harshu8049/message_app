@@ -67,8 +67,9 @@ class _AudioOrMessageSendButtonState extends State<AudioOrMessageSendButton>
     controller.buttonLongPress.value = false;
     controller.update();
     setState(() {
-      scale = 1; // Reset the scale when drag ends
-      _pointer = const Offset(360, 10); // Reset the pointer to the original position
+      scale = 1; 
+      _pointer =
+          const Offset(360, 10); 
     });
   }
 
@@ -117,7 +118,7 @@ class _AudioOrMessageSendButtonState extends State<AudioOrMessageSendButton>
               controller.update();
               controller.buttonLongPress.value = true;
               setState(() {
-                scale = 1.5; // Increase the scale on tap down
+                scale = 1.5; 
               });
             },
             onTapUp: (details) {
@@ -125,18 +126,18 @@ class _AudioOrMessageSendButtonState extends State<AudioOrMessageSendButton>
               controller.update();
               controller.buttonLongPress.value = true;
               setState(() {
-                scale = 1; // Reset the scale on tap up
+                scale = 1; 
               });
             },
             onTapCancel: () {
               controller.buttonLongPress.value = false;
               setState(() {
-                scale = 1; // Reset the scale on tap up
+                scale = 1; 
               });
             },
             onVerticalDragStart: (details) {
               setState(() {
-                scale = 2; // Increase the scale on drag start
+                scale = 2; 
               });
               controller.buttonLongPress.value = true;
             },

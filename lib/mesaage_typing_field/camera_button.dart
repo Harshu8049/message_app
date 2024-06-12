@@ -16,14 +16,12 @@ class CameraButton extends StatefulWidget {
 }
 
 class _EmojiButtonState extends State<CameraButton> {
-  late CameraController? cameraController;
+  CameraController? cameraController =
+      CameraController(cameras![0], ResolutionPreset.high);
   late Future<void> cameraVAlue;
   String? imagepath;
 
   void startCamera(int camera) async {
-    cameraController = CameraController(cameras![camera], ResolutionPreset.high,
-        enableAudio: false);
-
     try {
       await cameraController!.initialize().then((value) {
         if (!mounted) {
@@ -65,7 +63,6 @@ class _EmojiButtonState extends State<CameraButton> {
 
   @override
   void initState() {
-    startCamera(0);
     super.initState();
   }
 
@@ -99,6 +96,7 @@ class _EmojiButtonState extends State<CameraButton> {
                                     child: IconButton(
                                       iconSize: 40,
                                       onPressed: () {
+                                        startCamera(0);
                                         takePicture();
                                       },
                                       icon: const Icon(Icons.camera_alt),
